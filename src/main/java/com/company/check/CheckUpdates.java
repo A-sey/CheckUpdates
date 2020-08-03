@@ -77,5 +77,6 @@ public class CheckUpdates {
         } else if (args[0].equals("/s") || args[0].equals("/status")) {
             System.out.println(manager.getListText());
         }
+        System.out.println();
     }
 }

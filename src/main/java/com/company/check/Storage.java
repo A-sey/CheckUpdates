@@ -3,6 +3,7 @@ package com.company.check;
 import java.io.*;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -163,14 +164,15 @@ public class Storage {
 
     public String getListText() {
         StringBuilder text = new StringBuilder();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         int c=0;
         for(Rercord r: list){
             text.append(++c).append('\t')
                     .append(r.getName()).append('\t')
                     .append(r.getUrl()).append('\t')
-                    .append(r.getTime()).append('\n');
+                    .append(formatter.format(r.getTime())).append('\n');
         }
-        return text.toString();
+        return text.toString().trim();
     }
 
     public String getNameByNumber(int number){
