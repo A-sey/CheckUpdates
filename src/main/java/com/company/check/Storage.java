@@ -1,6 +1,7 @@
 package com.company.check;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,11 +11,13 @@ import java.util.Scanner;
  * Класс, управляющий файлами
  */
 public class Storage {
+    private static String path = "files/";
     private String fileName = "records.csv";
     private List<Rercord> list;
 
     public Storage() {
         list = new LinkedList<>();
+        new File(path).mkdir();
     }
 
     /**
@@ -23,7 +26,8 @@ public class Storage {
      */
     public boolean readList(){
         try {
-            FileReader reader = new FileReader(fileName);
+
+            FileReader reader = new FileReader(path+fileName);
             Scanner scanner = new Scanner(reader);
             list.clear();
             while (scanner.hasNextLine()) {
@@ -43,7 +47,7 @@ public class Storage {
      */
     public boolean writeList(){
         try {
-            FileWriter writer = new FileWriter(fileName);
+            FileWriter writer = new FileWriter(path+fileName);
             for(Rercord r: list){
                 StringBuffer line = new StringBuffer();
                 line.append(r.getName()).append(";");
@@ -99,7 +103,7 @@ public class Storage {
      */
     public static String readFile(String name){
         try {
-            FileReader reader = new FileReader(name);
+            FileReader reader = new FileReader(path+name);
             Scanner scanner = new Scanner(reader);
             StringBuffer text = new StringBuffer();
             while (scanner.hasNextLine()) {
@@ -119,7 +123,7 @@ public class Storage {
      */
     public static boolean writeFile(String name, String text){
         try {
-            FileWriter writer = new FileWriter(name);
+            FileWriter writer = new FileWriter(path+name);
             writer.write(text);
             writer.flush();
         } catch (IOException e) {
