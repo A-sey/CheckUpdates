@@ -82,6 +82,15 @@ public class Storage {
         }
     }
 
+    public static String distortText(String text){
+        String name = "temp";
+        writeFile(name, text);
+        String result = readFile(name);
+        File file = new File(name);
+        file.delete();
+        return result;
+    }
+
     /**
      * Получение адреса страницы по короткому имени
      * @param name Короткое название
@@ -105,12 +114,13 @@ public class Storage {
         try {
             FileReader reader = new FileReader(path+name);
             Scanner scanner = new Scanner(reader);
-            StringBuffer text = new StringBuffer();
+            StringBuilder text = new StringBuilder();
             while (scanner.hasNextLine()) {
                 text.append(scanner.nextLine()).append('\n');
             }
+            reader.close();
             return text.toString();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             return null;
         }
     }
@@ -126,6 +136,7 @@ public class Storage {
             FileWriter writer = new FileWriter(path+name);
             writer.write(text);
             writer.flush();
+            writer.close();
         } catch (IOException e) {
             return false;
         }

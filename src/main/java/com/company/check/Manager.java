@@ -32,7 +32,7 @@ public class Manager {
             String url = storage.getUrlByName(name);
             String oldText = Storage.readFile(name);
             String newText = Site.get(url);
-            assert oldText != null;
+            newText = Storage.distortText(newText);
             if(oldText.equals(newText)){
                 return 0;
             }else {
