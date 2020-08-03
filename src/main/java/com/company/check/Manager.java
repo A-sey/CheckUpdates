@@ -30,6 +30,9 @@ public class Manager {
     public int check(String name){
         try {
             String url = storage.getUrlByName(name);
+            if (storage==null){
+                return 3;
+            }
             String oldText = Storage.readFile(name);
             String newText = Site.get(url);
             newText = Storage.distortText(newText);
@@ -37,6 +40,8 @@ public class Manager {
                 return 0;
             }else {
                 Storage.writeFile(name, newText);
+                storage.updateTime(name);
+                storage.writeList();
                 return 1;
             }
         } catch (IOException e) {
@@ -48,5 +53,17 @@ public class Manager {
         storage.dropRecord(name);
         storage.writeList();
         return 0;
+    }
+
+    public int check(int number){
+        String name = storage.getNameByNumber(number);
+        if(name==null){
+            return 2;
+        }
+        return check(name);
+    }
+
+    public String getListText(){
+        return storage.getListText();
     }
 }

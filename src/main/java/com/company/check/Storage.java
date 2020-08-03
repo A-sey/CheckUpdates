@@ -72,6 +72,19 @@ public class Storage {
         list.add(record);
     }
 
+    public void updateTime(String name){
+        for(Rercord r: list){
+            if(r.getName().equals(name)){
+                r.setTime(LocalDateTime.now());
+                break;
+            }
+        }
+    }
+
+    /**
+     * Удаление записи из списка
+     * @param name
+     */
     public void dropRecord(String name){
         for(Rercord r: list){
             if(r.getName().equals(name)){
@@ -82,6 +95,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Преобразование кодировки текста
+     * @param text Преобразуемый текст
+     * @return Результат преобразования
+     */
     public static String distortText(String text){
         String name = "temp";
         writeFile(name, text);
@@ -141,5 +159,25 @@ public class Storage {
             return false;
         }
         return true;
+    }
+
+    public String getListText() {
+        StringBuilder text = new StringBuilder();
+        int c=0;
+        for(Rercord r: list){
+            text.append(++c).append('\t')
+                    .append(r.getName()).append('\t')
+                    .append(r.getUrl()).append('\t')
+                    .append(r.getTime()).append('\n');
+        }
+        return text.toString();
+    }
+
+    public String getNameByNumber(int number){
+        try {
+            return list.get(number-1).getName();
+        }catch (IndexOutOfBoundsException e){
+            return null;
+        }
     }
 }
