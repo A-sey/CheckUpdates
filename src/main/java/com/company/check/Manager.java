@@ -1,6 +1,7 @@
 package com.company.check;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Управление записями
@@ -36,7 +37,7 @@ public class Manager {
             String oldText = Storage.readFile(name);
             String newText = Site.get(url);
             newText = Storage.distortText(newText);
-            if(oldText.equals(newText)){
+            if(compare(oldText, newText)==0){
                 return 0;
             }else {
                 Storage.writeFile(name, newText);
@@ -47,6 +48,21 @@ public class Manager {
         } catch (IOException e) {
             return 2;
         }
+    }
+
+    private int compare(String oldText, String newText){
+        if(oldText==null){
+            return -1;
+        }
+        String[] o = oldText.split("\n");
+        String[] n = newText.split("\n");
+        int max = Math.min(o.length, n.length);
+        for(int i = 0; i<max; i++){
+            if(!o[i].equals(n[i])){
+                return i+1;
+            }
+        }
+        return 0;
     }
 
     public int delete(String name){
